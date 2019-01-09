@@ -17,8 +17,8 @@ retained long tare;
 retained long taretemp;
 
 //Thingspeak channel parameters.
-String CHANNEL_ID = "660430";//wely 12
-String WRITE_API_KEY = "EEOS3NF805E9M6OL";//wely 12
+String CHANNEL_ID = "647261";//wely 6
+String WRITE_API_KEY = "0PX8K4BFLB241JJ3";//wely 6
 String server = "api.thingspeak.com"; // ThingSpeak Server
 TCPClient client;
 
@@ -87,7 +87,7 @@ float measuretemp()
     steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15); // + (1/To)
     steinhart = 1.0 / steinhart; // Invert
     steinhart -= 273.15; // convert to C
-    
+
     Particle.publish("Temperature: ", String(steinhart));
     return steinhart;
 }
@@ -95,12 +95,12 @@ float measuretemp()
 void setup() {
     delay(2000);
 
-    scale.set_scale(81.f);           // High capacity! Low capacity is 212. this value is obtained by calibrating the scale with known weights. It seems similar between the tal 220 units. It is a quotient: if it goes up the response reported goes down. It assumes that the response is linear and mostly static, which is true below 3kg.
-// I'm taring upon power up now.     
+    scale.set_scale(212.f);           // Low capacity! High capacity is 81. this value is obtained by calibrating the scale with known weights. It seems similar between the tal 220 units. It is a quotient: if it goes up the response reported goes down. It assumes that the response is linear and mostly static, which is true below 3kg.
+// I'm taring upon power up now.
     len = strlen(data_r);
-    
-    if (len == 0)//if this is first boot add the header and tare the scale. 
-    {   
+
+    if (len == 0)//if this is first boot add the header and tare the scale.
+    {
         Particle.connect();
         waitUntil(Particle.connected);//This is to set the clock, really. Otherwise the Photon doesn't know the time during the first hour
         Particle.publish("Wely status", "BOOT!");
@@ -110,28 +110,28 @@ void setup() {
         tare = scale.get_offset();
         strcpy(data_r,"write_api_key="+WRITE_API_KEY+"&time_format=absolute&updates=");
     }
-    
+
     scale.set_offset(tare);        //This value is obtained by taring after boot.
     ThingSpeak.begin(client);
-    
+
     pinMode(A2, INPUT);//not sure if this is really necessary. some people say pinmode is only for digital pins
 }
 
 void loop() {
-    
+
     float tcorrectedmass;
-    
+
     for (int i = 0; i <= 4; i++){
         massarr[i]=scale.get_units(1);//this used to be 10.
         //I think the HX711 is running at 10 samples per second.
     }
-    
+
     qsort(massarr, 5, sizeof(int), compare);
 
     mass = massarr[2];
-    
-    tcorrectedmass = mass - (23.36*(measuretemp()-taretemp)); //Wely 12. the values are from calibration. they are different for every Wely. Keep in mind the sign! It varies.
-    
+
+    tcorrectedmass = mass - (3.72*(measuretemp()-taretemp)); //Wely 6. the values are from calibration. they are different for every Wely. Keep in mind the sign! It varies.
+
     strcat(data_r,String(Time.local())); // append absolute time stamp .
     strcat(data_r,"%2C"); //comma
     strcat(data_r,String(mass)); //append data
@@ -140,15 +140,15 @@ void loop() {
     strcat(data_r,"%2C"); //comma
     strcat(data_r,String(measuretemp())); //append data
     strcat(data_r,"%7C"); // | between data points
-    
+
     len = strlen(data_r);
     if (len>=310)
     {
         senddata(data_r);
     }
-    
+
     measuretemp();
-    
+
     System.sleep(SLEEP_MODE_DEEP,600);
 
 }
@@ -156,12 +156,12 @@ void loop() {
 void senddata(char* Buffer) {
 
     Particle.connect();
-    
-    delay(10000); 
+
+    delay(10000);
     Particle.publish("data", Buffer);
     Particle.publish("data length", String(len));
 
-    
+
     String data_length = String(strlen(Buffer));
     // Close any connection before sending a new request
     client.stop();
@@ -180,9 +180,9 @@ void senddata(char* Buffer) {
     }
 
     delay(5000);
-    
+
     Particle.disconnect();
-    
+
 
     strcpy(data_r,"write_api_key="+WRITE_API_KEY+"&time_format=absolute&updates=");
 
