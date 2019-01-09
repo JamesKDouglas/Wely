@@ -1,6 +1,6 @@
 # Wely
 
-This project is about creating an Internet of Things based weighting lysimeter. The purpose is to take care of plants either manually or through an automation system as well as gather data for scientific use.
+This project is about creating an Internet of Things based weighting lysimeter. The purpose is to take care of plants either manually or through an automation system. It is also designed to gather data for scientific use, sending data to the MATLAB-integrated service ThingSpeak.
 
 The type of device, a WEighting LYsimeter has been concatenated to give the project and device name Wely. This tool is being designed for organic  farmers producing Cannabis sativa but one of the advantages of lysimetry is that it is widely applicable to other plants and farming systems. The main use in mind is to track the water content of a potted plant.
 
