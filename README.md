@@ -1,6 +1,6 @@
 # Wely
 
-This project is about creating an Internet of Things based weighting lysimeter (named the Wely pronounced weh·
+This project is about creating an Internet of Things based weighting lysimeter (named Wely, pronounced weh·
 lee). 
 
 A weighing lysimeter is an instrument used to record the mass of something over time. It has often been used for plant science. It's a great way to monitor the water content of a potted plant. For example, the data is recorded with a unit of grams, which is easy to understand and use in an irrigation system. Since the sensor is not in contact with any liquid it does not corrode. Unlike some other sensing techniques, lysimetry takes a reliable sample of the entire pot rather than only one spot inside of it.
