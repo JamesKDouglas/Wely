@@ -3,7 +3,7 @@ This code was created by James Douglas, Phytochem Consulting, for the Wely (Weig
 project. It is released under GNU GPLv3 - feel free to modify, share and use the code while keeping it open source.
 
 When using the code to re-flash a Wely device, you may copy and paste most of it into the Particle Build Integrated Development Environment using a web browser.
-The only odd part is that you have to add the libraries using the controls inside the IDE, so search for their names as noted below then delete the duplicate like that the IDE will add.
+The only odd part is that you have to add the libraries using the controls inside the IDE, so search for their names as noted below then delete the duplicate line that the IDE will add.
 
 References used to write the code are,
 
